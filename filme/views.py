@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Filme
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 # def homepage(request):
@@ -16,11 +17,11 @@ class Homepage(TemplateView):
 #     context['lista_filmes'] = lista_filmes
 #     return render(request, "homefilmes.html", context)
 
-class HomeFilmes(ListView):
+class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = "homefilmes.html"
     model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
 
-class DetalhesFilme(DetailView):
+class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = 'detalhesfilme.html'
     model = Filme # object_list -> 1 item do modelo
 
@@ -40,7 +41,7 @@ class DetalhesFilme(DetailView):
         context['filmes_relacionados'] = filmes_relacionados
         return context
 
-class PesquisarFilme(ListView):
+class PesquisarFilme(LoginRequiredMixin, ListView):
     template_name = "pesquisa.html"
     model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
 
