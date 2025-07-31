@@ -1,25 +1,34 @@
-from django.shortcuts import render
-from .models import Filme
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render, redirect, reverse
+from .models import Filme, Usuario
+from .forms import CriarContaForm, FormHomepage
+from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 # Create your views here.
-# def homepage(request):
-#     return render(request, "homepage.html")
-
-class Homepage(TemplateView):
+class Homepage(FormView):
     template_name = "homepage.html"
+    form_class = FormHomepage
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('filme:homefilmes')
+        else:
+            return super().get(request, *args, **kwargs) # redireciona para a homepage
 
-# def homefilmes(request):
-#     context = {}
-#     lista_filmes = Filme.objects.all()
-#     context['lista_filmes'] = lista_filmes
-#     return render(request, "homefilmes.html", context)
+    def get_success_url(self):
+        email = self.request.POST.get('email')
+        usuarios = Usuario.objects.filter(email=email)
+        if usuarios.exists():
+            return reverse('filme:login') + f'?username={usuarios[0]}&from_homepage=true' # é para passa o usuario na proxima tela e inicializar o campo
+        else:
+            return reverse('filme:criarconta') + f'?email={email}&from_homepage=true' # é para passar o email na proxima tela e inicializar o campo
+
 
 class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = "homefilmes.html"
     model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
+
 
 class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = 'detalhesfilme.html'
@@ -41,6 +50,7 @@ class DetalhesFilme(LoginRequiredMixin, DetailView):
         context['filmes_relacionados'] = filmes_relacionados
         return context
 
+
 class PesquisarFilme(LoginRequiredMixin, ListView):
     template_name = "pesquisa.html"
     model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
@@ -52,3 +62,46 @@ class PesquisarFilme(LoginRequiredMixin, ListView):
             return object_list
         else:
             return None
+
+
+class PaginaPerfil(LoginRequiredMixin, UpdateView):
+    template_name = 'editarperfil.html'
+    model = Usuario
+    fields = ['first_name', 'last_name', 'email']
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            if self.request.user.id != self.kwargs['pk']:
+                return self.redirect_to_own_profile()
+        else:
+            return HttpResponseRedirect(reverse('filme:login'))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def redirect_to_own_profile(self):
+        own_profile_url = reverse('filme:editarperfil', kwargs={'pk': self.request.user.id})
+        return HttpResponseRedirect(own_profile_url)
+
+    def get_success_url(self):
+        return reverse('filme:homefilmes')
+
+
+class CriarConta(FormView):
+    template_name = 'criarconta.html'
+    form_class = CriarContaForm
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('filme:login')
+
+    # função para pegar o email digitado na home e inicializar nesta tela
+    def get_initial(self):
+        initial = super().get_initial()
+        if self.request.GET.get('from_homepage') == 'true':
+            email = self.request.GET.get('email', '')
+            initial['email'] = email
+
+        return initial

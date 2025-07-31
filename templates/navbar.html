@@ -7,26 +7,36 @@
     </div>
 
     <div class="w-6/12 flex flex-nowrap justify-end">
-        <div class="mr-2">
-            <form method="get" action="{% url 'filme:pesquisafilme' %}">
-                <input type="text" class="py-1 px-2 rounded-md text-black" name="query"  value="{{ request.GET.query }}" placeholder="Pesquisar...">
-                <input type="submit" value="">
-            </form>
-        </div>
+         {% if user.is_authenticated %}
+            <div class="mr-2">
+                <form method="get" action="{% url 'filme:pesquisafilme' %}">
+                    <input type="text" class="py-1 px-2 rounded-md text-black" name="query"  value="{{ request.GET.query }}" placeholder="Pesquisar...">
+                    <input type="submit" value="">
+                </form>
+            </div>
 
-        <div class="mr-2">
-            <a href="#">
-                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
-                    Login
-                </button>
-            </a>
-        </div>
-        <div class="mr-2">
-            <a href="#">
-                <button class="bg-red-600 text-white py-1 px-3 rounded-md">
-                    Editar Perfil
-                </button>
-            </a>
-        </div>
+            <div class="mr-2">
+                <a href="{% url 'filme:editarperfil' request.user.pk %}">
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                        Editar Perfil
+                    </button>
+                </a>
+            </div>
+
+            <div class="mr-2">
+                <form method="post" action="{% url 'filme:logout' %}">
+                    {% csrf_token %}
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md" type="submit">Sair</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="mr-2">
+                <a href="{% url 'filme:login' %}">
+                    <button class="bg-red-600 text-white py-1 px-3 rounded-md">
+                        Login
+                    </button>
+                </a>
+            </div>
+        {% endif %}
     </div>
 </nav>
