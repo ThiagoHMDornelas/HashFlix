@@ -91,7 +91,7 @@ DATABASES = {
 import dj_database_url
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv('DATABASE_URL')
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:
     DATABASES = {
