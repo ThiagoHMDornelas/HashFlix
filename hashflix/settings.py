@@ -81,24 +81,24 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 import dj_database_url
 import os
 
-DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 #DATABASE_URL = 'postgresql://postgres:VoqUIuCyEBPrkPuBJsgQtlbulkbBTyBZ@postgres.railway.internal:5432/railway'
 
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:
     DATABASES = {
-        'default' : dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=1800)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
 # Password validation
