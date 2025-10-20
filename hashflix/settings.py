@@ -23,18 +23,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-TOKEN_CSRF = os.getenv('TOKEN_CSRF')
-if TOKEN_CSRF:
-    SECRET_KEY = TOKEN_CSRF
-    CSRF_TRUSTED_ORIGINS = ['https://hashflix-production-0f98.up.railway.app']
-else:
-    SECRET_KEY = 'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
+# TOKEN_CSRF = os.getenv('TOKEN_CSRF')
+# if TOKEN_CSRF:
+#     SECRET_KEY = TOKEN_CSRF
+#     CSRF_TRUSTED_ORIGINS = ['https://hashflix-production-0f98.up.railway.app']
+# else:
+#     SECRET_KEY = 'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
+
+# Usa o TOKEN_CSRF como SECRET_KEY se existir no ambiente do Railway
+SECRET_KEY = os.getenv(
+    'TOKEN_CSRF',
+    'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
+)
+
+# Domínios confiáveis para requisições POST (CSRF)
+CSRF_TRUSTED_ORIGINS = [
+    'https://hashflix-production-0f98.up.railway.app',
+    'https://*.up.railway.app',  # adiciona suporte a subdomínios do Railway
+]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ["hashflix-production-0f98.up.railway.app", "localhost", "127.0.0.1"]
-ALLOWED_HOSTS = ["*"]
+# 🌐 Hosts permitidos
+ALLOWED_HOSTS = [
+    'hashflix-production-0f98.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+]
+#ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
