@@ -11,23 +11,29 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+import os
 
-from django.conf.global_settings import AUTH_USER_MODEL
+from django.conf.global_settings import AUTH_USER_MODEL, CSRF_TRUSTED_ORIGINS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
+TOKEN_CSRF = os.getenv('TOKEN_CSRF')
+if TOKEN_CSRF:
+    SECRET_KEY = TOKEN_CSRF
+    CSRF_TRUSTED_ORIGINS = ['https://hashflix-production-0f98.up.railway.app/']
+else:
+    SECRET_KEY = 'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://hashflix-production-0f98.up.railway.app/', "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -81,12 +87,8 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
-import os
-
-#DATABASE_URL = os.getenv('DATABASE_URL')
-
-DATABASE_URL = 'postgresql://postgres:VoqUIuCyEBPrkPuBJsgQtlbulkbBTyBZ@hopper.proxy.rlwy.net:23501/railway'
+DATABASE_URL = os.getenv('DATABASE_URL')
+#DATABASE_URL = 'postgresql://postgres:VoqUIuCyEBPrkPuBJsgQtlbulkbBTyBZ@hopper.proxy.rlwy.net:23501/railway'
 
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:
