@@ -46,12 +46,12 @@ CSRF_TRUSTED_ORIGINS = [
 DEBUG = True
 
 # 🌐 Hosts permitidos
-ALLOWED_HOSTS = [
-    'hashflix-production-0f98.up.railway.app',
-    'localhost',
-    '127.0.0.1',
-]
-#ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = [
+#     'hashflix-production-0f98.up.railway.app',
+#     'localhost',
+#     '127.0.0.1',
+# ]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
