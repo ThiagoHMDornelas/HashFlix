@@ -105,8 +105,8 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-#DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL')
-DATABASE_URL = 'postgresql://postgres:vrKZJBBLIXZBwaUdQvemtBuexpvvNmmS@caboose.proxy.rlwy.net:41054/railway'
+DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL')
+#DATABASE_URL = 'postgresql://postgres:vrKZJBBLIXZBwaUdQvemtBuexpvvNmmS@caboose.proxy.rlwy.net:41054/railway'
 
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:
