@@ -18,11 +18,21 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('filme.urls', namespace='filme'))
 ]
 
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Sempre servir arquivos estáticos (necessário para WhiteNoise coletar no Railway)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Servir arquivos de mídia:
+# - Localmente (DEBUG=True)
+# - No Railway (quando existir TOKEN_CSRF no ambiente)
+if settings.DEBUG or os.getenv("TOKEN_CSRF"):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
