@@ -38,7 +38,7 @@ if os.getenv('TOKEN_CSRF'):
     DEBUG = False
     # Hosts permitidos
     ALLOWED_HOSTS = [
-        'hashflix-production-0f98.up.railway.app',
+        'hashflix-production-98fb.up.railway.app',
         '.up.railway.app'
     ]
 else:
