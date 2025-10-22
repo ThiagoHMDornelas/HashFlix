@@ -35,7 +35,7 @@ if os.getenv('TOKEN_CSRF'):
         'https://hashflix-production-98fb.up.railway.app',
         'https://*.up.railway.app',  # adiciona suporte a subdomínios do Railway
     ]
-    DEBUG = False
+    DEBUG = True
     # Hosts permitidos
     ALLOWED_HOSTS = [
         'hashflix-production-98fb.up.railway.app',
