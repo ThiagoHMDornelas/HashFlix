@@ -1,17 +1,27 @@
 from django.contrib.messages import success
 from django.urls import path, reverse_lazy
-from .views import Homepage, HomeFilmes, DetalhesFilme, PesquisarFilme, PaginaPerfil, CriarConta
 from django.contrib.auth import views as auth_view
+
+from .views import Homepage, HomeFilmes, DetalhesFilme, PesquisarFilme, PaginaPerfil, CriarConta
+
 
 app_name = 'filme'
 
 urlpatterns = [
     path('', Homepage.as_view(), name='homepage'),
+
+    # *** FILMES ***
     path('filmes/', HomeFilmes.as_view(), name='homefilmes'),
     path('filmes/<int:pk>', DetalhesFilme.as_view(), name='detalhesfilme'),
+
+    # *** PESQUISA ***
     path('pesquisa/', PesquisarFilme.as_view(), name='pesquisafilme'),
+
+    # *** LOGIN ***
     path('login/', auth_view.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_view.LogoutView.as_view(template_name='logout.html'), name='logout'),
+
+    # *** ADM ***
     path('editarperfil/<int:pk>', PaginaPerfil.as_view(), name='editarperfil'),
     path('criarconta/', CriarConta.as_view(), name='criarconta'),
     path('mudarsenha/', auth_view.PasswordChangeView.as_view(template_name='editarperfil.html',

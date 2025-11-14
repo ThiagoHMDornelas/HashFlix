@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Filme, Usuario
-from .forms import CriarContaForm, FormHomepage
 from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+
+from .models import Filme, Usuario
+from .forms import CriarContaForm, FormHomepage
+
+
 
 # Create your views here.
 class Homepage(FormView):
