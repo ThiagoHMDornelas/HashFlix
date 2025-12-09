@@ -14,7 +14,7 @@ from pathlib import Path
 import dj_database_url
 import os
 
-from django.conf.global_settings import AUTH_USER_MODEL, CSRF_TRUSTED_ORIGINS
+# from django.conf.global_settings import AUTH_USER_MODEL, CSRF_TRUSTED_ORIGINS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL')
-#DATABASE_URL = 'postgresql://postgres:vrKZJBBLIXZBwaUdQvemtBuexpvvNmmS@caboose.proxy.rlwy.net:41054/railway'
+# DATABASE_URL = 'postgresql://postgres:vrKZJBBLIXZBwaUdQvemtBuexpvvNmmS@caboose.proxy.rlwy.net:41054/railway'
 
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:

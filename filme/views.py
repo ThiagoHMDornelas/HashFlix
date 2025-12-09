@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect, reverse
-from django.views.generic import TemplateView, ListView, DetailView, FormView, UpdateView
+from django.shortcuts import redirect, reverse  # render,
+from django.views.generic import ListView, DetailView, FormView, UpdateView  # TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 
 from .models import Filme, Usuario
 from .forms import CriarContaForm, FormHomepage
-
 
 
 # Create your views here.
@@ -17,25 +16,25 @@ class Homepage(FormView):
         if request.user.is_authenticated:
             return redirect('filme:homefilmes')
         else:
-            return super().get(request, *args, **kwargs) # redireciona para a homepage
+            return super().get(request, *args, **kwargs)  # redireciona para a homepage
 
     def get_success_url(self):
         email = self.request.POST.get('email')
         usuarios = Usuario.objects.filter(email=email)
         if usuarios.exists():
-            return reverse('filme:login') + f'?username={usuarios[0]}&from_homepage=true' # é para passa o usuario na proxima tela e inicializar o campo
+            return reverse('filme:login') + f'?username={usuarios[0]}&from_homepage=true'  # é para passa o usuario na proxima tela e inicializar o campo
         else:
-            return reverse('filme:criarconta') + f'?email={email}&from_homepage=true' # é para passar o email na proxima tela e inicializar o campo
+            return reverse('filme:criarconta') + f'?email={email}&from_homepage=true'  # é para passar o email na proxima tela e inicializar o campo
 
 
 class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = "homefilmes.html"
-    model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
+    model = Filme  # passa para o HTML com o nome (object_list -> lista de itens do modelo)
 
 
 class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = 'detalhesfilme.html'
-    model = Filme # object_list -> 1 item do modelo
+    model = Filme  # object_list -> 1 item do modelo
 
     def get(self, request, *args, **kwargs):
         # contabilizar uma visualizaçao
@@ -44,7 +43,7 @@ class DetalhesFilme(LoginRequiredMixin, DetailView):
         filme.save()
         usuario = request.user
         usuario.filmes_vistos.add(filme)
-        return super().get(request, *args, **kwargs) # redireciona o user para a url final
+        return super().get(request, *args, **kwargs)  # redireciona o user para a url final
 
     def get_context_data(self, **kwargs):
         context = super(DetalhesFilme, self).get_context_data(**kwargs)
@@ -56,7 +55,7 @@ class DetalhesFilme(LoginRequiredMixin, DetailView):
 
 class PesquisarFilme(LoginRequiredMixin, ListView):
     template_name = "pesquisa.html"
-    model = Filme # passa para o HTML com o nome (object_list -> lista de itens do modelo)
+    model = Filme  # passa para o HTML com o nome (object_list -> lista de itens do modelo)
 
     def get_queryset(self):
         termo_pesquisa = self.request.GET.get('query')

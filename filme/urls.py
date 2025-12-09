@@ -1,4 +1,4 @@
-from django.contrib.messages import success
+# from django.contrib.messages import success
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_view
 

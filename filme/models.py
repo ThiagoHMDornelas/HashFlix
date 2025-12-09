@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 
-
 LISTA_CATEGORIAS = (
     ("ANALISES", "Análises"),
     ("PROGRAMACAO", "Programação"),
