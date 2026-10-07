@@ -33,6 +33,7 @@ O **HashFlix** é uma aplicação web de streaming construída com Django (templ
 - Cadastro, login e logout de usuários (usuário customizado `filme.Usuario`)
 - Catálogo de filmes organizado por categorias
 - Página de detalhes do filme com episódios e filmes relacionados
+- Player de vídeo embutido (YouTube) com conversão automática das URLs dos episódios para o formato de embed
 - Contador de visualizações por filme
 - Histórico de "filmes vistos" por usuário ("Continuar Assistindo")
 - Busca de filmes por título
@@ -66,6 +67,8 @@ HashFlix/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── .env.example        # exemplo de variáveis de ambiente
+├── Procfile            # comando de start em produção (gunicorn)
+├── runtime.txt         # versão do Python usada no deploy
 ├── manage.py
 ├── requirements.txt
 └── requirements_dev.txt
@@ -255,7 +258,7 @@ A suíte e o lint também rodam automaticamente a cada `push` e `pull request` v
 | GET | `/pesquisa/` | Busca de filmes por título (requer login) |
 | GET/POST | `/criarconta/` | Cadastro de usuário |
 | GET/POST | `/login/` | Login |
-| GET/POST | `/logout/` | Logout |
+| POST | `/logout/` | Logout |
 | GET/POST | `/editarperfil/<id>` | Edição do perfil (requer login) |
 | GET/POST | `/mudarsenha/` | Troca de senha (requer login) |
 | GET | `/admin/` | Painel administrativo |

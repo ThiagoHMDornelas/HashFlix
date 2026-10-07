@@ -16,7 +16,7 @@
                     {{ object.descricao|slice:":100" }}...
                 </p>
                 <div class="flex my-4">
-                    <a href="{{ object.episodios.first.video }}">
+                    <a href="#player">
                         <button class="flex items-center bg-white py-2 px-5 rounded-md" style='color:black;'>
                             <ion-icon name="play" class="text-2xl"></ion-icon>
                             <span class="ml-3 font-medium">
@@ -27,6 +27,25 @@
                 </div>
             </div>
         </section>
+
+        {% if object.episodios.first %}
+        <section id="player" class='bg-primary_black flex justify-center py-10'>
+            <div class="p-8 w-10/12 relative">
+                <h2 class="text-gray-200 text-3xl font-medium mb-4">
+                    Assistir
+                </h2>
+                <div class="w-full aspect-video">
+                    <iframe id="video-player"
+                            class="w-full h-full rounded-md"
+                            src="{{ object.episodios.first.video }}"
+                            frameborder="0"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        {% endif %}
 
         <section class='bg-primary_black flex justify-center py-10'>
             <div class="p-8 w-10/12 relative" >
@@ -47,7 +66,7 @@
                     </h2>
                         {% for episodio in object.episodios.all %}
                             <h3 class='text-lg'>
-                                <a href="{{ episodio.video }}">
+                                <a href="#player" class="episodio-link" data-video="{{ episodio.video }}">
                                     <p>Episódio {{ forloop.counter}}: {{ episodio.titulo }}</p>
                                 </a>
                             </h3>
@@ -75,4 +94,15 @@
             </div>
         </section>
     </main>
+
+    {% if object.episodios.first %}
+    <script>
+        document.querySelectorAll('.episodio-link').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                document.getElementById('video-player').src = this.dataset.video;
+            });
+        });
+    </script>
+    {% endif %}
 {% endblock %}

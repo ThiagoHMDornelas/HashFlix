@@ -34,6 +34,35 @@ class EpisodioModelTest(TestCase):
         self.assertEqual(str(episodio), 'Power BI - Aula 1')
 
 
+class EpisodioVideoUrlTest(TestCase):
+    def criar_episodio(self, video):
+        return Episodio.objects.create(
+            filme=criar_filme(titulo='Filme'), titulo='Episódio', video=video
+        )
+
+    def test_converte_watch_para_embed(self):
+        episodio = self.criar_episodio('https://www.youtube.com/watch?v=ZFdrlOlFE6Q')
+        self.assertEqual(episodio.video, 'https://www.youtube.com/embed/ZFdrlOlFE6Q')
+
+    def test_converte_youtu_be_para_embed(self):
+        episodio = self.criar_episodio('https://youtu.be/ZFdrlOlFE6Q')
+        self.assertEqual(episodio.video, 'https://www.youtube.com/embed/ZFdrlOlFE6Q')
+
+    def test_mantem_embed(self):
+        episodio = self.criar_episodio('https://www.youtube.com/embed/ZFdrlOlFE6Q')
+        self.assertEqual(episodio.video, 'https://www.youtube.com/embed/ZFdrlOlFE6Q')
+
+    def test_remove_parametros_extras(self):
+        episodio = self.criar_episodio(
+            'https://www.youtube.com/watch?v=ZFdrlOlFE6Q&t=30s'
+        )
+        self.assertEqual(episodio.video, 'https://www.youtube.com/embed/ZFdrlOlFE6Q')
+
+    def test_url_nao_youtube_inalterada(self):
+        episodio = self.criar_episodio('https://vimeo.com/123456')
+        self.assertEqual(episodio.video, 'https://vimeo.com/123456')
+
+
 class UsuarioModelTest(TestCase):
     def test_criacao_de_usuario(self):
         usuario = Usuario.objects.create_user(

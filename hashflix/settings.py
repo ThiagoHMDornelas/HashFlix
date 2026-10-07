@@ -45,6 +45,10 @@ else:
     DEBUG = os.getenv('DEBUG', 'True') == 'True'
     ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
+# Referrer Policy: permite que players externos (ex.: YouTube embed) recebam a origem.
+# O padrão do Django ("same-origin") não envia referrer cross-origin, o que causa o "Erro 153".
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
 
 # Application definition
 
