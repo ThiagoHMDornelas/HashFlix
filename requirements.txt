@@ -3,17 +3,12 @@ crispy-bootstrap5==2025.6
 dj-database-url==3.0.1
 Django==5.2.1
 django-crispy-forms==2.4
-flake8==7.3.0
 gunicorn==23.0.0
-mccabe==0.7.0
 packaging==25.0
 pillow==11.2.1
 psycopg==3.2.11
 psycopg-binary==3.2.11
-psycopg2==2.9.11
 psycopg2-binary==2.9.11
-pycodestyle==2.14.0
-pyflakes==3.4.0
 sqlparse==0.5.3
 tzdata==2025.2
 whitenoise==6.11.0

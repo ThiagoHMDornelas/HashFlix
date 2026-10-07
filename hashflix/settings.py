@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv(
+SECRET_KEY = os.getenv('SECRET_KEY') or os.getenv(
     'TOKEN_CSRF',
     'django-insecure-502^s#d-*@4d$$@_lq3yeusx@tepa+q$_msg_@7!y0jpp375bx'
 )
@@ -35,15 +35,15 @@ if os.getenv('TOKEN_CSRF'):
         'https://hashflix-production-98fb.up.railway.app',
         'https://*.up.railway.app',  # adiciona suporte a subdomínios do Railway
     ]
-    DEBUG = True
+    DEBUG = os.getenv('DEBUG', 'True') == 'True'
     # Hosts permitidos
     ALLOWED_HOSTS = [
         'hashflix-production-98fb.up.railway.app',
         '.up.railway.app'
     ]
 else:
-    DEBUG = True
-    ALLOWED_HOSTS = ["*"]
+    DEBUG = os.getenv('DEBUG', 'True') == 'True'
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -97,8 +97,7 @@ WSGI_APPLICATION = 'hashflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASE_URL = os.getenv('DATABASE_PUBLIC_URL')
-# DATABASE_URL = 'postgresql://postgres:vrKZJBBLIXZBwaUdQvemtBuexpvvNmmS@caboose.proxy.rlwy.net:41054/railway'
+DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('DATABASE_PUBLIC_URL')
 
 # se estiver online, a variavel de ambiente terá valor
 if DATABASE_URL:

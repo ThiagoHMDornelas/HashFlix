@@ -6,24 +6,23 @@ class FilmeConfig(AppConfig):
     name = 'filme'
 
     def ready(self):
-        from .models import Usuario
         import os
         from django.db.utils import OperationalError, IntegrityError
+        from .models import Usuario
 
-        email = os.getenv("EMAIL_ADMIN")
-        senha = os.getenv("SENHA_ADMIN")
+        username = os.getenv("DJANGO_SUPERUSER_USERNAME")
+        email = os.getenv("DJANGO_SUPERUSER_EMAIL")
+        password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
 
         # Só tenta criar se as variáveis existirem
-        if email and senha:
+        if username and email and password:
             try:
-                # Verifica se já existe um admin com esse e-mail
-                if not Usuario.objects.filter(email=email).exists():
+                # Verifica se já existe um superusuário com esse usuário
+                if not Usuario.objects.filter(username=username).exists():
                     Usuario.objects.create_superuser(
-                        username="admin",
+                        username=username,
                         email=email,
-                        password=senha,
-                        is_active=True,
-                        is_staff=True,
+                        password=password,
                     )
             except (OperationalError, IntegrityError):
                 # Ignora se o banco ainda não estiver pronto ou se já existir

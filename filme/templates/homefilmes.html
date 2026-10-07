@@ -80,6 +80,7 @@
 
 {% block content %}
     <main class='bg-primary_black min-h-screen w-full'>
+        {% if lista_destaque %}
         <section class="h-screen relative bg-no-repeat pb-8 pl-6 flex items-end bg-cover bg-center" style="background-image: url('{{ lista_destaque.thumb.url }}');">
             <div>
                 <h2 class="text-6xl font-semibold text-white my-4">
@@ -100,6 +101,7 @@
                 </div>
             </div>
         </section>
+        {% endif %}
 
         <!--  Filmes Novos  -->
         <section class='bg-primary_black flex justify-center py-10'>
