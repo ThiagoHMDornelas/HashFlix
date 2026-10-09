@@ -9,9 +9,14 @@
 
 Clone de plataforma de streaming ("Netflix fake") desenvolvido com Django. Usuários se cadastram, fazem login e navegam por um catálogo de filmes organizado por categorias, com página de detalhes, episódios, contador de visualizações, histórico de "filmes vistos" e busca por título.
 
+![Página inicial do HashFlix](docs/img/hashflix_home.png)
+
+*Página inicial — apresentação da plataforma.*
+
 ## Sumário
 
 - [Visão geral](#visão-geral)
+- [Telas do projeto](#telas-do-projeto)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias](#tecnologias)
 - [Estrutura do projeto](#estrutura-do-projeto)
@@ -27,6 +32,16 @@ Clone de plataforma de streaming ("Netflix fake") desenvolvido com Django. Usuá
 ## Visão geral
 
 O **HashFlix** é uma aplicação web de streaming construída com Django (templates e Class-Based Views). Visitantes acessam a página inicial e criam conta; usuários autenticados navegam pelo catálogo de filmes, assistem aos detalhes, pesquisam títulos e editam o próprio perfil. Cada filme possui episódios e uma categoria, e o sistema registra quantas vezes cada filme foi visualizado e o histórico de filmes vistos por usuário. A interface usa Bootstrap 5 e Tailwind CSS, e os filmes (com thumbnails) são gerenciados pelo painel administrativo.
+
+## Telas do projeto
+
+**Catálogo de filmes** — destaque, seções "Novo", "Em Alta" e "Continuar Assistindo":
+
+![Catálogo de filmes](docs/img/hashflix_catalog.png)
+
+**Detalhes do filme** — informações, player de vídeo e filmes relacionados:
+
+![Detalhes do filme](docs/img/hashflix_detail.png)
 
 ## Funcionalidades
 
